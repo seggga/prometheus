@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: "http"
+    scrape_interval: 30s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - 192.168.1.121:9000
+        labels:
+          environment: prod
+    
+  - job_name: "blackbox_exporter"
+    metrics_path: /probe
+    params:
+      module:
+        - http_2xx # Look for a HTTP 200 response.
+        - icmp
+    scrape_interval: 3s
+    scrape_timeout: 2s
+    static_configs:
+      - targets:
+          - http://192.168.1.121:9000/process?line=helloprom
+    

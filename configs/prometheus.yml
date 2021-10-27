@@ -1,0 +1,22 @@
+# prometheus global config
+global:
+  scrape_interval:     10s
+  evaluation_interval: 15s    # смотрим, обновились ли правила
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:               # список целей с конфигурацией
+  # metrics_path defaults to '/metrics'
+  # scheme defaults to 'http'.
+  - job_name: prometheus
+    scrape_interval: 5s
+    scrape_timeout: 2s
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  - job_name: node-exporter
+    scrape_interval: 5s
+    scrape_timeout: 2s
+    honor_labels: true
+    static_configs:
+      - targets: ['node:9100']
